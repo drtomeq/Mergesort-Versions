@@ -10,30 +10,17 @@ This version is in-place,
 that is we do not extend the memory requirements beyond the list
 but in doing so may need several more swaps"""
 
-def half_and_sort(start, end):
-    """ Splits the list into 2 and combines them sorted
-
-    The recursion of mergesort is seen in this function
-    To stop an infinite loop terminate the halving process 
-    when empty or just a single element
-    """
-    if end>start:
-        split_position = (start + end) // 2
-        mergesort(start,split_position,end)
-
 def combine_two_lists(start=0, split=len(the_list)//2, end=len(the_list)):
     """ Sorts elements between start and end positions 
     
-    It does this by splitting into two lists 
+    It does this by considering it as two sublists 
     start to split and split +1 to end 
-    Assumes that two lists are themselves ordered
+    Assumes that two sublists are themselves ordered
     This is a fair assumption if mergesort algorithm works right
     It uses a version of insertion sort 
+    We insert each of the elements in the right sublist to the left
     Not the most time efficient, but keeps it in-place"""
 
-    # if 1 list is empty, no need to change anything
-    if start>split or split>end:
-        return
     # pos2_start = split+1 # position in list 2
     for pos2_start in range(split+1,end+1):
         pos2 = pos2_start
@@ -47,7 +34,7 @@ def combine_two_lists(start=0, split=len(the_list)//2, end=len(the_list)):
 def mergesort(start=0, split=(len(the_list)-1)//2, end=len(the_list)-1):
     """Sort by halving list into 2 sublists and combining sorted
     
-    The algorithm is inheritly recursive as sorting calls mergesort
+    The algorithm is inheritly recursive: mergesort is called on each half lists
     The idea is we keep on halfing each sublist until they can no longer be halved
     This is when they are either empty or have a single element
     We then combine the half elements sorted"""
@@ -59,10 +46,6 @@ def mergesort(start=0, split=(len(the_list)-1)//2, end=len(the_list)-1):
     if end>start:
         split_position = (split+1 + end) // 2
         mergesort(split+1,split_position,end)
-
-
-    # half_and_sort(start,split)
-    # half_and_sort(split+1,end)
 
     combine_two_lists(start, split, end)
 
